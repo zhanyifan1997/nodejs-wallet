@@ -7,7 +7,7 @@ connection.connect(function (err) {
 });
 function getAddress(userId){
     return new Promise((resolve,reject)=>{
-        connection.query('select * from wallet where user_id='+ userId, function(err,res){
+        connection.query('select * from wallet where user_id= "'+ userId + '"', function(err,res){
             if(err){
                 reject(err);
             }

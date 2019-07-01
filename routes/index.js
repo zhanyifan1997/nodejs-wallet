@@ -11,6 +11,9 @@ router.get('/', function(req, res, next) {
 router.get('/getTestNetAddress',function (req, res, next) {
   controlers.wallet.getAddress(req.query.userId).then(response=>{
     res.send(JSON.stringify(response[0]));
+  },err =>{
+    console.log(err);
+    res.send();
   })
 })
 
@@ -41,14 +44,16 @@ router.get('/getTestNetPrivateKey', function (req, res, next) {
     console.log('response========='+response);
     res.send(JSON.stringify(response))
   },err =>{
-    console.log(err);
+    console.log('err==================================>')
+    console.log('err===='+err);
+    res.send()
   });
 });
 
 router.get('/getTestNetKeyStore', function (req, res, next) {
   controlers.wallet.getKeyStore(req.query.openId,req.query.pwd).then(response =>{
     console.log('response========='+response);
-    res.send(JSON.stringify(response))
+    res.send(response)
   },err =>{
     console.log(err);
   });
