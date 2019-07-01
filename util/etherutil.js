@@ -20,6 +20,35 @@ function getERC20Balance(address){
     })
 }
 
+function sendERC20Transaction(from, to, value, password){
+    from = from.split('0x')[1];
+    return new Promise((resolve, reject) => {
+        fs.readFile('/home/ifan/wallet/' + from +'.json','utf-8',(err, data) =>{
+            if(err){
+                reject(err);
+            }else{
+                ethers.Wallet.fromEncryptedJson(data, password).then(function(wallet) {
+                    wallet = wallet.connect(provider);
+                    // wallet.(provider);
+                    let contractWithSigner = contract.connect(wallet);
+                    contractWithSigner.transfer(to , value , {
+                        gasLimit: 80000,
+                        // 偷懒，直接是用 2gwei
+                        gasPrice: ethers.utils.parseUnits("20", "gwei"),
+                    }).then(function(tx) {
+                        console.log(tx);
+                        // 介绍刷新上面的Token余额，重置输入框
+                    },err =>{
+                        reject(err.reason);
+                    });
+                },err => {
+                    reject(err.reason);
+                });
+            }
+        });
+    })
+}
+
 function createWallet(password){
     return new Promise((resolve, reject)=>{
         let wallet = ethers.Wallet.createRandom();
@@ -41,7 +70,8 @@ module.exports = {
     getERC20Balance: async address => {
         return getERC20Balance(address);
     },
-    createWallet: async (password)=> createWallet(password)
+    createWallet: async (password)=> createWallet(password),
+    sendERC20Transaction: async (from, to ,value, password)=> sendERC20Transaction(from, to ,value, password)
 }
 
 

@@ -1,10 +1,10 @@
-// const ethers = require('ethers');
-// let abi = [
-//     "event ValueChanged(address indexed author, string oldValue, string newValue)",
-//     "constructor(string value)",
-//     "function getValue() view returns (string value)",
-//     "function setValue(string value)"
-// ];
+const ethers = require('ethers');
+let abi = [
+    "event ValueChanged(address indexed author, string oldValue, string newValue)",
+    "constructor(string value)",
+    "function getValue() view returns (string value)",
+    "function setValue(string value)"
+];
 //
 // // Connect to the network
 // let provider = ethers.getDefaultProvider('rinkeby');
@@ -26,16 +26,17 @@
 // const qs = require('qs');
 // const axios = require('axios');
 //
-// getToken('123456').then(response=>{
+// getToken('021nggdh0WV2kv1V0Sdh0C0mdh0nggdJ').then(response=>{
 //     console.log('resposse===========')
 //     console.log(response);
 // });
 // function getToken(code) {
-//     let reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?';
+//     // let reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?';
+//     let reqUrl = 'https://api.weixin.qq.com/sns/jscode2session?';
 //     let params = {
 //         appid: 'wxe85cb0e39dca6880',
 //         secret: '5f9a853ca5f8029e85d922d07356b4df',
-//         code: code,
+//         js_code: code,
 //         grant_type: 'authorization_code'
 //     };
 //     let options = {

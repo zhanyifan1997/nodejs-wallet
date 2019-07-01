@@ -1,11 +1,12 @@
 const ethers = require('ethers');
 const fs = require('fs');
 const etherutil = require('../util/etherutil');
+const qs = require('qs');
+const axios = require('axios');
 const wallet = require('../dao/walletdao')
 let provider =  ethers.getDefaultProvider('mainnet');
 module.exports = {
     createAccount: async ctx => {
-        console.log(ctx.body);
         return new Promise((resolve, reject)=>{
             etherutil.createWallet(ctx.body.password).then(response=>{
                 console.log(response);
@@ -15,9 +16,9 @@ module.exports = {
                 });
             });
         });
-
-
-        // wallet.addAddress()
+    },
+    sendERC20Transaction: async (from, to ,value, password) => {
+        return etherutil.sendERC20Transaction(from, to, value, password);
     },
     getERC20Balance: async ctx => {
         return etherutil.getERC20Balance(ctx);
@@ -56,6 +57,28 @@ module.exports = {
 
                 });
             });
+        })
+    },
+    getOpenId: async (code) => {
+        // let reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?';
+        let reqUrl = 'https://api.weixin.qq.com/sns/jscode2session?';
+        let params = {
+            appid: 'wxe85cb0e39dca6880',
+            secret: '5f9a853ca5f8029e85d922d07356b4df',
+            js_code: code,
+            grant_type: 'authorization_code'
+        };
+        let options = {
+            method: 'get',
+            url: reqUrl+qs.stringify(params)
+        };
+        console.log(options.url);
+        return new Promise((resolve, reject) => {
+            axios.request(options).then(response=>{
+                resolve(response.data);
+            },err=>{
+                reject(err);
+            })
         })
     }
 };

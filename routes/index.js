@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const controlers = require('../controllers')
+const controlers = require('../controllers');
 const qs = require('qs');
 const http = require('http');
 
@@ -21,7 +21,12 @@ router.get('/getTestNetBalance',function(req,res,next){
 });
 
 router.post('/sendTestNetTransaction', function (req, res, next) {
-
+  controlers.wallet.sendERC20Transaction(req.body.from,req.body.to,req.body.value,req.body.password)
+      .then(response => {
+        res.send(JSON.stringify(response));
+      },err =>{
+        res.send(JSON.stringify(err));
+      });
 });
 
 router.post('/newTestNetAccount', function (req, res, next) {
@@ -47,40 +52,12 @@ router.get('/getTestNetKeyStore', function (req, res, next) {
   },err =>{
     console.log(err);
   });
-})
+});
 
-// router.post('/testRPC',function (req, res, next) {
-//   getToken('123456').then((err,body)=>{
-//     console.log(err)
-//     console.log(body)
-//   });
-//   // controlers.wallet.createAccount(req);
-//   // res.send(JSON.stringify({name : "zhangsan"}))
-// })
-
-
-// function getToken(code) {
-//   let reqUrl = 'https://api.weixin.qq.com/sns/oauth2/access_token?';
-//   let params = {
-//     appid: 'wxe85cb0e39dca6880',
-//     secret: '5f9a853ca5f8029e85d922d07356b4df',
-//     code: code,
-//     grant_type: 'authorization_code'
-//   };
-//   let options = {
-//     method: 'get',
-//     url: reqUrl+qs.stringify(params)
-//   };
-//   console.log(options.url);
-//   return new Promise((resolve, reject) => {
-//     http.request(options, function (err, res, body) {
-//       if (res) {
-//         resolve(body);
-//       } else {
-//         reject(err);
-//       }
-//     })
-//   })
-// }
+router.get('/getOpenId',function(req, res, next){
+  controlers.wallet.getOpenId(req.query.code).then(response=>{
+    res.send(response.openid);
+  })
+});
 
 module.exports = router;
