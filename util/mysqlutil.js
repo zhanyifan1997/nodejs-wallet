@@ -12,7 +12,7 @@ function getConnection(){
     let connection = mysql.createConnection({
         host: 'rm-bp1inmi8r2pq0dq3m7o.mysql.rds.aliyuncs.com',
         user: 'root',
-        password: 'sGB0kGog6sgXIx3vyLKn2nGf5SHYnedX',
+        password: '',
         database: 'clc'
     })
     return connection;
