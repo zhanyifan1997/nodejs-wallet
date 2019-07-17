@@ -65,4 +65,5 @@ router.get('/getOpenId',function(req, res, next){
   })
 });
 
+
 module.exports = router;
